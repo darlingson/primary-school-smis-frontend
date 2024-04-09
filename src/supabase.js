@@ -76,3 +76,216 @@ export async function deleteStudentProfile(studentId) {
 
     return true;
 }
+
+export async function createParentContactInfo(parentContactInfo) {
+    const { data, error } = await supabase.from('parent_contact_info').insert(parentContactInfo);
+
+    if (error) {
+        console.error('Error creating parent contact info:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function fetchParentContactInfo(studentId) {
+    const { data, error } = await supabase
+        .from('parent_contact_info')
+        .select('*')
+        .eq('student_id', studentId);
+
+    if (error) {
+        console.error('Error fetching parent contact info:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function updateParentContactInfo(contactId, updatedData) {
+    const { data, error } = await supabase
+        .from('parent_contact_info')
+        .update(updatedData)
+        .eq('id', contactId);
+
+    if (error) {
+        console.error('Error updating parent contact info:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function deleteParentContactInfo(contactId) {
+    const { error } = await supabase
+        .from('parent_contact_info')
+        .delete()
+        .eq('id', contactId);
+
+    if (error) {
+        console.error('Error deleting parent contact info:', error.message);
+        return false;
+    }
+
+    return true;
+}
+
+export async function createAcademicRecord(academicRecord) {
+    const { data, error } = await supabase.from('academic_records').insert(academicRecord);
+
+    if (error) {
+        console.error('Error creating academic record:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function fetchAcademicRecords(studentId) {
+    const { data, error } = await supabase
+        .from('academic_records')
+        .select('*')
+        .eq('student_id', studentId);
+
+    if (error) {
+        console.error('Error fetching academic records:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function updateAcademicRecord(recordId, updatedData) {
+    const { data, error } = await supabase
+        .from('academic_records')
+        .update(updatedData)
+        .eq('id', recordId);
+
+    if (error) {
+        console.error('Error updating academic record:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function deleteAcademicRecord(recordId) {
+    const { error } = await supabase
+        .from('academic_records')
+        .delete()
+        .eq('id', recordId);
+
+    if (error) {
+        console.error('Error deleting academic record:', error.message);
+        return false;
+    }
+
+    return true;
+}
+
+
+export async function createAttendanceHistory(attendanceHistory) {
+    const { data, error } = await supabase.from('attendance_history').insert(attendanceHistory);
+
+    if (error) {
+        console.error('Error creating attendance history:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function fetchAttendanceHistory(studentId) {
+    const { data, error } = await supabase
+        .from('attendance_history')
+        .select('*')
+        .eq('student_id', studentId);
+
+    if (error) {
+        console.error('Error fetching attendance history:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function updateAttendanceHistory(historyId, updatedData) {
+    const { data, error } = await supabase
+        .from('attendance_history')
+        .update(updatedData)
+        .eq('id', historyId);
+
+    if (error) {
+        console.error('Error updating attendance history:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function deleteAttendanceHistory(historyId) {
+    const { error } = await supabase
+        .from('attendance_history')
+        .delete()
+        .eq('id', historyId);
+
+    if (error) {
+        console.error('Error deleting attendance history:', error.message);
+        return false;
+    }
+
+    return true;
+}
+
+export async function createHealthInformation(healthInformation) {
+    const { data, error } = await supabase.from('health_information').insert(healthInformation);
+
+    if (error) {
+        console.error('Error creating health information:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function fetchHealthInformation(studentId) {
+    const { data, error } = await supabase
+        .from('health_information')
+        .select('*')
+        .eq('student_id', studentId);
+
+    if (error) {
+        console.error('Error fetching health information:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function updateHealthInformation(infoId, updatedData) {
+    const { data, error } = await supabase
+        .from('health_information')
+        .update(updatedData)
+        .eq('id', infoId);
+
+    if (error) {
+        console.error('Error updating health information:', error.message);
+        return null;
+    }
+
+    return data;
+}
+
+export async function deleteHealthInformation(infoId) {
+    const { error } = await supabase
+        .from('health_information')
+        .delete()
+        .eq('id', infoId);
+
+    if (error) {
+        console.error('Error deleting health information:', error.message);
+        return false;
+    }
+
+    return true;
+}
