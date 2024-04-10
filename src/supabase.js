@@ -289,3 +289,90 @@ export async function deleteHealthInformation(infoId) {
 
     return true;
 }
+
+
+//school crud functions
+async function fetchAllSchools() {
+    try {
+        const { data, error } = await supabase
+            .from('schools')
+            .select('*');
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error('Error fetching schools:', error.message);
+        return null;
+    }
+}
+
+// Function to fetch a single school by ID
+async function fetchSchoolById(id) {
+    try {
+        const { data, error } = await supabase
+            .from('schools')
+            .select('*')
+            .eq('id', id)
+            .single();
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error(`Error fetching school with ID ${id}:`, error.message);
+        return null;
+    }
+}
+
+// Function to create a new school
+async function createSchool(name, location) {
+    try {
+        const { data, error } = await supabase
+            .from('schools')
+            .insert([{ name, location }]);
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error('Error creating school:', error.message);
+        return null;
+    }
+}
+
+// Function to update an existing school by ID
+async function updateSchoolById(id, updates) {
+    try {
+        const { data, error } = await supabase
+            .from('schools')
+            .update(updates)
+            .eq('id', id);
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (error) {
+        console.error(`Error updating school with ID ${id}:`, error.message);
+        return null;
+    }
+}
+
+// Function to delete a school by ID
+async function deleteSchoolById(id) {
+    try {
+        const { error } = await supabase
+            .from('schools')
+            .delete()
+            .eq('id', id);
+        if (error) {
+            throw error;
+        }
+        return true; // Deletion successful
+    } catch (error) {
+        console.error(`Error deleting school with ID ${id}:`, error.message);
+        return false; // Deletion failed
+    }
+}
+
+export { fetchAllSchools, fetchSchoolById, createSchool, updateSchoolById, deleteSchoolById };
