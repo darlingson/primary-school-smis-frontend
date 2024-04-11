@@ -1,16 +1,5 @@
 import { supabase } from '../supabase.js'
-
-interface School {
-  id: string
-  created_at: string
-  school_name: string
-  level: string
-  region: string
-  district: string
-  constituency: string
-  traditional_authority: string
-  village: string
-}
+import type { School } from '../components/interfaces/School'
 
 // Function to fetch all schools
 async function fetchAllSchools(): Promise<School[] | null> {
