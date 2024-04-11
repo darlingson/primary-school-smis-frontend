@@ -26,33 +26,33 @@
           <li class="nav-item">
             <a
               class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-              href="#pablo"
+              href="/"
             >
               <i class="fab fa-facebook-square text-lg leading-lg text-white opacity-75" /><span
                 class="ml-2"
-                >Share</span
+                >Home</span
               >
             </a>
           </li>
           <li class="nav-item">
             <a
               class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-              href="#pablo"
+              href="/Schools"
             >
               <i class="fab fa-twitter text-lg leading-lg text-white opacity-75" /><span
                 class="ml-2"
-                >Tweet</span
+                >Schools</span
               >
             </a>
           </li>
           <li class="nav-item">
             <a
               class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-              href="#pablo"
+              href="/teachers"
             >
               <i class="fab fa-pinterest text-lg leading-lg text-white opacity-75" /><span
                 class="ml-2"
-                >Pin</span
+                >Teachers</span
               >
             </a>
           </li>
