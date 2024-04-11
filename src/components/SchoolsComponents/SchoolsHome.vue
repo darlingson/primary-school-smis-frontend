@@ -45,6 +45,52 @@
         />
       </div>
 
+      <div class="mb-4">
+        <label for="district" class="block text-sm font-semibold">District:</label>
+        <input
+          type="text"
+          id="district"
+          v-model="newSchool.district"
+          required
+          class="w-full border rounded-md p-2"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="constituency" class="block text-sm font-semibold">Constituency:</label>
+        <input
+          type="text"
+          id="constituency"
+          v-model="newSchool.constituency"
+          required
+          class="w-full border rounded-md p-2"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="traditionalAuthority" class="block text-sm font-semibold"
+          >Traditional Authority:</label
+        >
+        <input
+          type="text"
+          id="traditionalAuthority"
+          v-model="newSchool.traditional_authority"
+          required
+          class="w-full border rounded-md p-2"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="village" class="block text-sm font-semibold">Village:</label>
+        <input
+          type="text"
+          id="village"
+          v-model="newSchool.village"
+          required
+          class="w-full border rounded-md p-2"
+        />
+      </div>
+
       <button
         type="submit"
         class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600"
@@ -57,8 +103,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { createSchool, fetchAllSchools } from 'src/controllers/SchoolController'
-import type { School } from '../interfaces/School.ts'
+import { createSchool, fetchAllSchools } from '../../controllers/SchoolController'
+import type { School } from '../interfaces/School'
 const schools = ref<School[]>([])
 const newSchool = ref<School>({
   id: '',
