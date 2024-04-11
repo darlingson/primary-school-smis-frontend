@@ -10,7 +10,10 @@
     <h1 class="text-3xl font-bold mb-4">List of Schools</h1>
     <ul>
       <li v-for="school in schools" :key="school.id" class="mb-2">
-        <div class="bg-gray-100 p-4 rounded-md">
+        <div
+          @click="navigateToSchoolInfo(school.id)"
+          class="bg-gray-100 p-4 rounded-md cursor-pointer"
+        >
           <p class="text-lg font-semibold">{{ school.school_name }}</p>
           <p>{{ school.level }} - {{ school.region }}</p>
         </div>
@@ -149,6 +152,7 @@
 import { ref } from 'vue'
 import { createSchool, fetchAllSchools } from '../../controllers/SchoolController'
 import type { School } from '../interfaces/School'
+import { useRouter } from 'vue-router'
 const schools = ref<School[]>([])
 const newSchool = ref<School>({
   id: '',
@@ -214,6 +218,10 @@ const clearForm = () => {
     village: ''
   }
 }
+const router = useRouter()
 
+const navigateToSchoolInfo = (schoolId: string) => {
+  router.push({ name: 'SchoolInfo', params: { id: schoolId } })
+}
 fetchSchools()
 </script>
