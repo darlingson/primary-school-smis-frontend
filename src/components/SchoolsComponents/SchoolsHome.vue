@@ -94,8 +94,32 @@
       <button
         type="submit"
         class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600"
+        :disabled="isSubmitting"
       >
-        Add School
+        <template v-if="isSubmitting">
+          <svg
+            class="animate-spin h-5 w-5 mr-3"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8v-4c-2.76 0-5.202-1.131-7-2.965z"
+            ></path>
+          </svg>
+          Adding...
+        </template>
+        <template v-else>Add School</template>
       </button>
     </form>
   </div>
@@ -117,7 +141,7 @@ const newSchool = ref<School>({
   traditional_authority: '',
   village: ''
 })
-
+const isSubmitting = ref(false)
 const fetchSchools = async () => {
   const fetchedSchools = await fetchAllSchools()
   if (fetchedSchools) {
@@ -126,28 +150,47 @@ const fetchSchools = async () => {
 }
 
 const addNewSchool = async () => {
-  const addedSchool = await createSchool(
-    newSchool.value.school_name,
-    newSchool.value.level,
-    newSchool.value.region,
-    newSchool.value.district,
-    newSchool.value.constituency,
-    newSchool.value.traditional_authority,
-    newSchool.value.village
-  )
-  if (addedSchool) {
-    schools.value.push(addedSchool)
-    newSchool.value = {
-      id: '',
-      created_at: '',
-      school_name: '',
-      level: '',
-      region: '',
-      district: '',
-      constituency: '',
-      traditional_authority: '',
-      village: ''
+  try {
+    isSubmitting.value = true
+    const addedSchool = await createSchool(
+      newSchool.value.school_name,
+      newSchool.value.level,
+      newSchool.value.region,
+      newSchool.value.district,
+      newSchool.value.constituency,
+      newSchool.value.traditional_authority,
+      newSchool.value.village
+    )
+    if (addedSchool) {
+      schools.value.push(addedSchool)
+      newSchool.value = {
+        id: '',
+        created_at: '',
+        school_name: '',
+        level: '',
+        region: '',
+        district: '',
+        constituency: '',
+        traditional_authority: '',
+        village: ''
+      }
+      clearForm()
     }
+  } finally {
+    isSubmitting.value = false
+  }
+}
+const clearForm = () => {
+  newSchool.value = {
+    id: '',
+    created_at: '',
+    school_name: '',
+    level: '',
+    region: '',
+    district: '',
+    constituency: '',
+    traditional_authority: '',
+    village: ''
   }
 }
 
