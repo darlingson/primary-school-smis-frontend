@@ -10,7 +10,7 @@ async function fetchAllSchools(): Promise<School[] | null> {
       return null
     }
     return data || []
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching schools:', error.message)
     return null
   }
@@ -25,7 +25,7 @@ async function fetchSchoolById(id: string): Promise<School | null> {
       return null
     }
     return data
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error fetching school with ID ${id}:`, error.message)
     return null
   }
@@ -52,7 +52,7 @@ async function createSchool(
       return null
     }
     return data ? data[0] : null
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating school:', error.message)
     return null
   }
@@ -67,7 +67,7 @@ async function updateSchoolById(id: string, updates: Partial<School>): Promise<S
       return null
     }
     return data ? data[0] : null
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error updating school with ID ${id}:`, error.message)
     return null
   }
@@ -82,7 +82,7 @@ async function deleteSchoolById(id: string): Promise<boolean> {
       return false // Deletion failed
     }
     return true // Deletion successful
-  } catch (error) {
+  } catch (error: any) {
     console.error(`Error deleting school with ID ${id}:`, error.message)
     return false // Deletion failed
   }

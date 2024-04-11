@@ -1,17 +1,16 @@
 <template>
   <div class="container mx-auto p-4 flex">
-    <!-- Left section -->
     <div class="w-1/2 pr-4">
       <h1 class="text-3xl font-bold mb-4">{{ schoolData?.school_name }}</h1>
-      <!-- Display school information here -->
       <div>
         <p><span class="font-semibold">Level:</span> {{ schoolData?.level }}</p>
         <p><span class="font-semibold">Region:</span> {{ schoolData?.region }}</p>
         <p><span class="font-semibold">District:</span> {{ schoolData?.district }}</p>
-        <!-- Add more school information fields as needed -->
+        <p><span class="font-semibold">District:</span> {{ schoolData?.constituency }}</p>
+        <p><span class="font-semibold">District:</span> {{ schoolData?.traditional_authority }}</p>
+        <p><span class="font-semibold">District:</span> {{ schoolData?.village }}</p>
       </div>
       <div class="mt-6">
-        <!-- Buttons to edit school info, add teachers, and add students -->
         <button
           @click="showEditForm"
           class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 mr-4"
@@ -33,21 +32,12 @@
       </div>
     </div>
 
-    <!-- Right section -->
     <div class="w-1/2 pl-4">
-      <!-- Dynamic content based on button clicked -->
-      <template v-if="showEditFormFlag">
-        <!-- Display edit school form here -->
-        <!-- ... -->
-      </template>
+      <template v-if="showEditFormFlag"> </template>
       <template v-else-if="showAddTeachersFormFlag">
-        <!-- Display add teachers form here -->
-        <!-- ... -->
+        <SchoolTeachers />
       </template>
-      <template v-else-if="showAddStudentsFormFlag">
-        <!-- Display add students form here -->
-        <!-- ... -->
-      </template>
+      <template v-else-if="showAddStudentsFormFlag"> </template>
     </div>
   </div>
 </template>
@@ -57,7 +47,7 @@ import { ref, onMounted } from 'vue'
 import { fetchSchoolById } from '../controllers/SchoolController'
 import { useRoute } from 'vue-router'
 import type { School } from '../components/interfaces/School'
-
+import SchoolTeachers from '@/components/TeacherComponents/SchoolTeachers.vue'
 const showEditFormFlag = ref(false)
 const showAddTeachersFormFlag = ref(false)
 const showAddStudentsFormFlag = ref(false)
