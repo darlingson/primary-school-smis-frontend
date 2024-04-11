@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
+import SchoolInfo from '../views/SchoolInfoView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,7 +26,11 @@ const router = createRouter({
       path: '/schools',
       name: 'schools',
       component: () => import('../views/SchoolsView.vue')
-    }
+    },
+    { path: '/school/:id', name: 'SchoolInfo', component: SchoolInfo }
+    // { path: '/school/:id/edit', name: 'EditSchool', component: EditSchool },
+    // { path: '/school/:id/add-teachers', name: 'AddTeachers', component: AddTeachers },
+    // { path: '/school/:id/add-students', name: 'AddStudents', component: AddStudents }
   ]
 })
 
