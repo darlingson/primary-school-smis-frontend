@@ -19,10 +19,7 @@ import { supabase } from './supabase'
 const user = ref(null)
 
 onMounted(() => {
-  // Initialize the user reference with the current user
   user.value = supabase.auth.user()
-
-  // Set up a listener to update the user reference when the authentication state changes
   supabase.auth.onAuthStateChange((event, session) => {
     user.value = event === 'SIGNED_OUT' ? null : session.user
   })

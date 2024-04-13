@@ -17,33 +17,51 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { supabase } from '../../supabase'
 
-export default {
-  setup() {
-    const email = ref('')
-    const password = ref('')
+const email = ref('')
+const password = ref('')
 
-    const handleSignup = async () => {
-      try {
-        // Use the Supabase provided method to handle the signup
-        const { error } = await supabase.auth.signUp({
-          email: email.value,
-          password: password.value
-        })
-        if (error) throw error
-      } catch (error) {
-        alert(error.error_description || error.message)
-      }
-    }
+async function handleSignup() {
+  const { data, error } = await supabase.auth.signUp({
+    email: email.value,
+    password: password.value
+  })
 
-    return {
-      email,
-      password,
-      handleSignup
-    }
+  if (error) {
+    alert(error.error_description || error.message)
+  }
+
+  if (data) {
+    console.log(data)
   }
 }
+
+// export default {
+//   setup() {
+//     const email = ref('')
+//     const password = ref('')
+
+//     const handleSignup = async () => {
+//       try {
+//         // Use the Supabase provided method to handle the signup
+//         const { error } = await supabase.auth.signUp({
+//           email: email.value,
+//           password: password.value
+//         })
+//         if (error) throw error
+//       } catch (error) {
+//         alert(error.error_description || error.message)
+//       }
+//     }
+
+//     return {
+//       email,
+//       password,
+//       handleSignup
+//     }
+//   }
+// }
 </script>

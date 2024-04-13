@@ -17,33 +17,40 @@
   </div>
 </template>
 
-<script>
+<script setup>
+// import { ref } from 'vue'
+// import { supabase } from '../../supabase'
+
+// export default {
+//   setup() {
+//     const email = ref('')
+//     const password = ref('')
+
+//     const handleSignin = async () => {
+//       try {
+//         const { error } = await supabase.auth.signIn({
+//           email: email.value,
+//           password: password.value
+//         })
+//         if (error) throw error
+//       } catch (error) {
+//         alert(error.error_description || error.message)
+//       }
+//     }
+
+//     return {
+//       email,
+//       password,
+//       handleSignin
+//     }
+//   }
+// }
 import { ref } from 'vue'
 import { supabase } from '../../supabase'
 
-export default {
-  setup() {
-    const email = ref('')
-    const password = ref('')
-
-    const handleSignin = async () => {
-      try {
-        // Use the Supabase provided method to handle the signin
-        const { error } = await supabase.auth.signIn({
-          email: email.value,
-          password: password.value
-        })
-        if (error) throw error
-      } catch (error) {
-        alert(error.error_description || error.message)
-      }
-    }
-
-    return {
-      email,
-      password,
-      handleSignin
-    }
-  }
+let email = ref('')
+let password = ref('')
+async function handleSignin() {
+  console.log(email.value, password.value)
 }
 </script>
