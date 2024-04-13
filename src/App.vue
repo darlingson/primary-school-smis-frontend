@@ -12,7 +12,7 @@ import Auth from './components/AuthComponents/Auth.vue'
 import NavBar from './components/NavBar.vue'
 import { RouterView } from 'vue-router'
 
-import { store } from './store'
+import { store } from './Store.js'
 import { supabase } from './supabase'
 
 // Define the user reference
@@ -27,6 +27,14 @@ onMounted(() => {
 })
 async function getCurrentUser() {
   const localUser = await supabase.auth.getSession()
+  if (localUser.data.session === null) {
+    user.value = null
+    store.state.user = null
+  }
+  if (localUser.data.session !== null) {
+    user.value = localUser.data.session.user
+    store.state.user = localUser
+  }
   console.log(localUser)
 }
 </script>

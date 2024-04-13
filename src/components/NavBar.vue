@@ -56,6 +56,15 @@
               >
             </a>
           </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              @click="signout()"
+              class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+            >
+              Log out
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -63,6 +72,7 @@
 </template>
 
 <script>
+import { supabase } from '../supabase'
 export default {
   name: 'teal-navbar',
   data() {
@@ -73,6 +83,15 @@ export default {
   methods: {
     toggleNavbar: function () {
       this.showMenu = !this.showMenu
+    },
+    signout: async function () {
+      const { data, error } = await supabase.auth.signOut()
+      if (error) {
+        console.log(error)
+      }
+      if (data) {
+        console.log(data)
+      }
     }
   }
 }
