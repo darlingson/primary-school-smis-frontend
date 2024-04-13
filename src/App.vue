@@ -19,11 +19,16 @@ import { supabase } from './supabase'
 const user = ref(null)
 
 onMounted(() => {
-  user.value = supabase.auth.user()
-  supabase.auth.onAuthStateChange((event, session) => {
-    user.value = event === 'SIGNED_OUT' ? null : session.user
-  })
+  // user.value = supabase.auth.user()
+  // supabase.auth.onAuthStateChange((event, session) => {
+  //   user.value = event === 'SIGNED_OUT' ? null : session.user
+  // })
+  getCurrentUser()
 })
+async function getCurrentUser() {
+  const localUser = await supabase.auth.getSession()
+  console.log(localUser)
+}
 </script>
 
 <style scoped>

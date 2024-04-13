@@ -51,6 +51,18 @@ import { supabase } from '../../supabase'
 let email = ref('')
 let password = ref('')
 async function handleSignin() {
-  console.log(email.value, password.value)
+  // console.log(email.value, password.value)
+  const { error, data } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value
+  })
+
+  if (error) {
+    alert(error.error_description || error.message)
+  }
+
+  if (data) {
+    console.log(data)
+  }
 }
 </script>
