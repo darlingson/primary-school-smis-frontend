@@ -17,13 +17,9 @@
         <!-- Add any navigation elements here -->
       </div>
     </header>
-
-    <!-- Main Content -->
     <main class="container mx-auto mt-8">
-      <!-- Dashboard Overview -->
       <section class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Dashboard Overview</h2>
-        <!-- Display summary metrics -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-white p-4 rounded-lg shadow-md">
             <h3 class="text-lg font-semibold mb-2">Total Students</h3>
@@ -39,11 +35,8 @@
           </div>
         </div>
       </section>
-
-      <!-- Quick Links -->
       <section class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Quick Links</h2>
-        <!-- Add links to commonly accessed pages or features -->
         <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <li class="bg-white p-4 rounded-lg shadow-md">Gradebook</li>
           <li class="bg-white p-4 rounded-lg shadow-md">Attendance</li>
@@ -51,23 +44,17 @@
           <li class="bg-white p-4 rounded-lg shadow-md">Reports</li>
         </ul>
       </section>
-
-      <!-- Announcements -->
       <section class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Announcements</h2>
-        <!-- Display recent announcements -->
         <ul>
           <li class="mb-2">New Class Schedule for the Spring Semester</li>
           <li class="mb-2">Upcoming Field Trip to the Science Museum</li>
         </ul>
       </section>
 
-      <!-- Calendar -->
-      <section class="mb-8">
+      <section class="mb-8 mx-auto">
         <h2 class="text-xl font-semibold mb-4">Calendar</h2>
-        <!-- Add calendar component to display events -->
         <Calendar />
-        <div class="bg-white p-4 rounded-lg shadow-md"></div>
       </section>
     </main>
 
