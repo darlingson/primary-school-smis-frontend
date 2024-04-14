@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 // import TheWelcome from '../components/TheWelcome.vue'
-</script>
+</script> -->
 
 <!-- <template>
   <main>
@@ -66,9 +66,8 @@
       <section class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Calendar</h2>
         <!-- Add calendar component to display events -->
-        <div class="bg-white p-4 rounded-lg shadow-md">
-          <!-- Calendar component goes here -->
-        </div>
+        <Calendar />
+        <div class="bg-white p-4 rounded-lg shadow-md"></div>
       </section>
     </main>
 
@@ -81,12 +80,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({})
+<script lang="ts" setup>
+import Calendar from '@/components/CalendarComponent.vue'
 </script>
-
-<style>
-/* You can include additional Tailwind CSS styles here */
-</style>
