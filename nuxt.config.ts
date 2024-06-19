@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     plugins: ['~/server/api/index.ts']
   },
   runtimeConfig:{
-    mongoURI: process.env.MONGODB_URI
+    mongoURI: process.env.MONGODB_URI,
+    jwtSecret: process.env.JWT_SECRET
   }
 })

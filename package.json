@@ -10,7 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
     "mongo": "^0.1.0",
     "mongoose": "^8.4.3",
     "nuxt": "^3.12.2",
