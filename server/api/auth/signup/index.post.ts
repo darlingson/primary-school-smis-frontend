@@ -27,10 +27,13 @@ export default defineEventHandler(async (event) => {
             message: 'Signup successful'
         };
     } catch (error) {
-        console.error('Error during signup:', error);
+        let errorMessage = 'An error occurred during signup';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
         return {
             success: false,
-            message: error.message || 'An error occurred during signup'
+            message: errorMessage || 'An error occurred during signup'
         };
     }
 });

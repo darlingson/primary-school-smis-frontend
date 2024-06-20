@@ -92,7 +92,7 @@ const login = async () => {
 const signup = async () => {
     signupError.value = null;
     try {
-        const { data } = await useFetch<{ token: string }>('/api/auth/signup', {
+        const { data } = await useFetch<{ token: string;message?: string }>('/api/auth/signup', {
             method: 'POST',
             body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value }
         });
@@ -100,8 +100,8 @@ const signup = async () => {
         if (data?.value?.token) {
             localStorage.setItem('authToken', data.value.token);
             await router.push('/');
-        } else if (data._value.message) {
-            signupError.value = data._value.message;
+        } else if (data?.value?.message) {
+            signupError.value = data.value.message;
         }
     } catch (error) {
         signupError.value = 'Signup failed';
