@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
             message: 'User not found'
         }
     }
-    console.log(body.password, user.password)
     const isMatch = await bcrypt.compare(body.password, user.password);
     if (!isMatch) {
         return {
@@ -31,5 +30,4 @@ export default defineEventHandler(async (event) => {
         message: 'Login successful',
         token
     }
-
 });
