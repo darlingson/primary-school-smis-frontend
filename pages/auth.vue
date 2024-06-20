@@ -20,36 +20,50 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref } from 'vue';
-  import { useFetch } from '@nuxt/http';
+  import { useRouter } from 'vue-router';
   
-  const loginEmail = ref('');
-  const loginPassword = ref('');
-  const signupEmail = ref('');
-  const signupPassword = ref('');
+  const loginEmail = ref<string>('');
+  const loginPassword = ref<string>('');
+  const signupEmail = ref<string>('');
+  const signupPassword = ref<string>('');
+  
+  const router = useRouter();
   
   const login = async () => {
-    const { data, error } = await useFetch('/api/auth/login', {
-      method: 'POST',
-      body: { email: loginEmail.value, password: loginPassword.value }
-    });
-    if (error) {
+    try {
+      const { data } = await useFetch<{ token: string }>('/api/auth/login', {
+        method: 'POST',
+        body: { email: loginEmail.value, password: loginPassword.value }
+      });
+  
+      if (data?.value?.token) {
+        localStorage.setItem('authToken', data.value.token);
+        await router.push('/');
+      } else {
+        alert('Login failed');
+      }
+    } catch (error) {
       alert('Login failed');
-    } else {
-      alert('Login successful');
     }
   };
   
   const signup = async () => {
-    const { data, error } = await useFetch('/api/auth/signup', {
-      method: 'POST',
-      body: { email: signupEmail.value, password: signupPassword.value }
-    });
-    if (error) {
+    try {
+      const { data } = await useFetch<{ token: string }>('/api/auth/signup', {
+        method: 'POST',
+        body: { email: signupEmail.value, password: signupPassword.value }
+      });
+  
+      if (data?.value?.token) {
+        localStorage.setItem('authToken', data.value.token);
+        await router.push('/');
+      } else {
+        alert('Signup failed');
+      }
+    } catch (error) {
       alert('Signup failed');
-    } else {
-      alert('Signup successful');
     }
   };
   </script>

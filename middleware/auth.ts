@@ -7,19 +7,13 @@ export default defineEventHandler(async (event) => {
     const token = event.req.headers['authorization']?.split(' ')[1];
 
     if (!token) {
-        return {
-            success: false,
-            message: 'Authentication token missing'
-        };
+        return sendError(event, createError({ statusCode: 401, statusMessage: 'Authentication token missing' }));
     }
 
     try {
         const decoded = jwt.verify(token, config.jwtSecret);
         event.context.auth = { userId: decoded._id };
     } catch (error) {
-        return {
-            success: false,
-            message: 'Invalid token'
-        };
+        return sendError(event, createError({ statusCode: 401, statusMessage: 'Invalid token' }));
     }
 });
