@@ -34,7 +34,8 @@
                     <h2 class="text-xl font-semibold mb-4">Signup</h2>
                     <form @submit.prevent="signup">
                         <div class="mb-4">
-                            <input v-model="signupName" type="text" placeholder="Name" class="w-full px-3 py-2 border rounded-lg" required />
+                            <input v-model="signupName" type="text" placeholder="Name"
+                                class="w-full px-3 py-2 border rounded-lg" required />
                         </div>
                         <div class="mb-4">
                             <input v-model="signupEmail" type="email" placeholder="Email"
@@ -43,6 +44,13 @@
                         <div class="mb-4">
                             <input v-model="signupPassword" type="password" placeholder="Password"
                                 class="w-full px-3 py-2 border rounded-lg" required />
+                        </div>
+                        <div class="mb-4">
+                            <select v-model="signupRole" class="w-full px-3 py-2 border rounded-lg" required>
+                                <option value="" disabled selected>Select role</option>
+                                <option value="schoolAdmin">School Admin</option>
+                                <option value="teacher">Teacher</option>
+                            </select>
                         </div>
                         <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
                             Signup
@@ -67,6 +75,7 @@ const showLogin = ref<boolean>(true);
 const loginError = ref<string | null>(null);
 const signupError = ref<string | null>(null);
 const signupName = ref<string | null>('');
+const signupRole = ref<string|null>(null)
 
 const router = useRouter();
 
@@ -92,9 +101,9 @@ const login = async () => {
 const signup = async () => {
     signupError.value = null;
     try {
-        const { data } = await useFetch<{ token: string;message?: string }>('/api/auth/signup', {
+        const { data } = await useFetch<{ token: string; message?: string }>('/api/auth/signup', {
             method: 'POST',
-            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value }
+            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role:signupRole }
         });
         console.log(data)
         if (data?.value?.token) {
