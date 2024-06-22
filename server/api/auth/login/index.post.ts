@@ -30,4 +30,5 @@ export default defineEventHandler(async (event) => {
         message: 'Login successful',
         token
     }
+    
 });
