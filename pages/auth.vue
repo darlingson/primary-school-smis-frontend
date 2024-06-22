@@ -116,7 +116,6 @@ const signup = async () => {
             method: 'POST',
             body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role: signupRole }
         });
-        console.log(data)
         if (data?.value?.token) {
             localStorage.setItem('authToken', data.value.token);
             await router.push('/');

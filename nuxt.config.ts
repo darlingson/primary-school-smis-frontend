@@ -10,5 +10,5 @@ export default defineNuxtConfig({
     mongoURI: process.env.MONGODB_URI,
     jwtSecret: process.env.JWT_SECRET
   },
-  modules: ["@nuxtjs/tailwindcss", '@pinia/nuxt',]
+  modules: ["@nuxtjs/tailwindcss", '@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt',]
 })

@@ -9,7 +9,9 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     authenticated: false,
     loading: false,
+    userEmail: '',
   }),
+  persist: true,
   actions: {
     async authenticateUser({ username, password }: UserPayloadInterface) {
       // useFetch from nuxt 3
@@ -17,22 +19,24 @@ export const useAuthStore = defineStore('auth', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: {
-          email:username,
-          password:password,
+          email: username,
+          password: password,
         },
       });
       this.loading = pending;
 
       if (data.value) {
-        const token = useCookie('token'); // useCookie new hook in nuxt 3
-        token.value = data?.value?.token; // set token to cookie
-        this.authenticated = true; // set authenticated  state value to true
+        const token = useCookie('token');
+        token.value = data?.value?.token;
+        this.authenticated = true;
+        this.userEmail = data?.value?.email;
       }
     },
     logUserOut() {
-      const token = useCookie('token'); // useCookie new hook in nuxt 3
-      this.authenticated = false; // set authenticated  state value to false
-      token.value = null; // clear the token cookie
+      const token = useCookie('token');
+      this.authenticated = false;
+      token.value = null;
+      this.userEmail = '';
     },
   },
 });

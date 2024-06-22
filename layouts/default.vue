@@ -43,11 +43,13 @@ import { useAuthStore } from '~/store/auth';
 
 const router = useRouter();
 const { logUserOut } = useAuthStore();
-const { authenticated } = storeToRefs(useAuthStore());
+const { authenticated, userEmail } = storeToRefs(useAuthStore());
+
+
 
 const logout = () => {
   logUserOut();
-  router.push('/login');
+  router.push('/auth');
 };
 </script>
 

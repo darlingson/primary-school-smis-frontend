@@ -1,14 +1,12 @@
-// export default defineNuxtRouteMiddleware((to, from) => {
-//     console.log('From auth middleware')
-// })
 import { useAuthStore } from "~/store/auth";
 export default defineNuxtRouteMiddleware((to) => {
-    const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive
+    const { authenticated,userEmail } = storeToRefs(useAuthStore()); // make authenticated state reactive
     const token = useCookie('token'); // get token from cookies
   
     if (token.value) {
       // check if value exists
       authenticated.value = true; // update the state to authenticated
+      userEmail.value = useAuthStore().userEmail;
     }
   
     // if token exists and url is /login redirect to homepage

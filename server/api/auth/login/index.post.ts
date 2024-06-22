@@ -25,11 +25,11 @@ export default defineEventHandler(async (event) => {
         }
     }
     const token = jwt.sign({ _id: user._id }, useRuntimeConfig().jwtSecret, { expiresIn: '7d' });
-    console.log(token)
     return {
         success: true,
         message: 'Login successful',
-        token
+        token,
+        email: user.email
     }
     
 });
