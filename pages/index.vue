@@ -8,10 +8,14 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '~/store/auth'; 
-const { authenticated,userEmail } = storeToRefs(useAuthStore());
-  definePageMeta({
-    middleware: 'auth2'
+import { useAuthStore } from '~/store/auth';
+const { authenticated, userEmail, role, school } = storeToRefs(useAuthStore());
+definePageMeta({
+  middleware: 'auth2'
 })
+//check if role is admin but no school is set, then navigate to add school page
+if (role.value === 'schoolAdmin' && !school.value) {
+  navigateTo('school/add-school');
+}
 
 </script>

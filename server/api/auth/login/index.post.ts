@@ -29,7 +29,9 @@ export default defineEventHandler(async (event) => {
         success: true,
         message: 'Login successful',
         token,
-        email: user.email
+        email: user.email,
+        role: user.role,
+        school: user.school
     }
     
 });
