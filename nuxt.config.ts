@@ -2,14 +2,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  nitro:{
+  nitro: {
     plugins: ['~/server/api/index.ts']
   },
 
-  runtimeConfig:{
+  runtimeConfig: {
     mongoURI: process.env.MONGODB_URI,
     jwtSecret: process.env.JWT_SECRET
   },
-
-  modules: ["@nuxtjs/tailwindcss"]
+  modules: ["@nuxtjs/tailwindcss", '@pinia/nuxt',]
 })

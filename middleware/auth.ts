@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from '#imports';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import { defineEventHandler, sendError, createError } from 'h3'; // Assuming these are imports from your framework
+import { defineEventHandler, sendError, createError } from 'h3';
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig();
