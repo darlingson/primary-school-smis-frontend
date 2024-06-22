@@ -66,6 +66,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
+import { useAuthStore } from '~/store/auth'; // import the auth store we just created
+
+const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
+
+const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
 const loginEmail = ref<string>('');
 const loginPassword = ref<string>('');
@@ -75,26 +81,31 @@ const showLogin = ref<boolean>(true);
 const loginError = ref<string | null>(null);
 const signupError = ref<string | null>(null);
 const signupName = ref<string | null>('');
-const signupRole = ref<string|null>(null)
+const signupRole = ref<string | null>(null)
 
 const router = useRouter();
 
 const login = async () => {
     loginError.value = null;
-    try {
-        const { data } = await useFetch<{ token: string }>('/api/auth/login', {
-            method: 'POST',
-            body: { email: loginEmail.value, password: loginPassword.value }
-        });
+    // try {
+    //     const { data } = await useFetch<{ token: string }>('/api/auth/login', {
+    //         method: 'POST',
+    //         body: { email: loginEmail.value, password: loginPassword.value }
+    //     });
 
-        if (data?.value?.token) {
-            localStorage.setItem('authToken', data.value.token);
-            await router.push('/');
-        } else {
-            loginError.value = 'Login failed';
-        }
-    } catch (error) {
-        loginError.value = 'Login failed';
+    //     if (data?.value?.token) {
+    //         localStorage.setItem('authToken', data.value.token);
+    //         await router.push('/');
+    //     } else {
+    //         loginError.value = 'Login failed';
+    //     }
+    // } catch (error) {
+    //     loginError.value = 'Login failed';
+    // }
+    await authenticateUser({ username: loginEmail.value, password: loginPassword.value }); // call authenticateUser and pass the user object
+    // redirect to homepage if user is authenticated
+    if (authenticated) {
+        router.push('/');
     }
 };
 
@@ -103,7 +114,7 @@ const signup = async () => {
     try {
         const { data } = await useFetch<{ token: string; message?: string }>('/api/auth/signup', {
             method: 'POST',
-            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role:signupRole }
+            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role: signupRole }
         });
         console.log(data)
         if (data?.value?.token) {
