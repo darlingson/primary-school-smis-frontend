@@ -1,3 +1,4 @@
+import User from "~/model/User";
 import School from "../../../../model/School";
 
 export default defineEventHandler(async (event) => {
@@ -14,6 +15,13 @@ export default defineEventHandler(async (event) => {
       adminEmail: body.adminEmail
     });
     await school.save();
+    const user = await User.findOne({ email: body.adminEmail });
+    console.log(user)
+    if (user) {
+      user.school = school._id;
+      await user.save();
+      console.log(user)
+    }
     console.log(school)
     return {
       success: true,
