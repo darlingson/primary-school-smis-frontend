@@ -4,26 +4,36 @@
       <h1 class="text-3xl font-bold">Welcome to the School Management System</h1>
       <p v-if="userEmail" class="mt-2">Logged in as: <strong>{{ userEmail }}</strong></p>
     </header>
-    <main>
-      <section v-if="role" class="bg-gray-100 p-6 rounded mb-6 shadow-md">
-        <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
+    <main class="flex">
+      <section class="w-2/3 pr-4">
+        <div v-if="role" class="bg-gray-100 p-6 rounded mb-6 shadow-md">
+          <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
+        </div>
+        <div v-if="teacherSchool" class="bg-white p-6 rounded mb-6 shadow-md">
+          <h2 class="text-2xl font-semibold mb-4">Your School Information</h2>
+          <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
+          <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
+        </div>
       </section>
-      <section v-if="teacherSchool" class="bg-white p-6 rounded mb-6 shadow-md">
-        <h2 class="text-2xl font-semibold mb-4">Your School Information</h2>
-        <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
-        <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
-      </section>
-      <section class="bg-gray-50 p-6 rounded shadow-md">
-        <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
-        <ul class="list-disc list-inside">
-          <li><a href="/add-class" class="text-blue-600 hover:underline">Add New Class</a></li>
-          <li><a href="/add-subject" class="text-blue-600 hover:underline">Add New Subject</a></li>
-          <li><a href="/register-student" class="text-blue-600 hover:underline">Register New Student</a></li>
-        </ul>
+      <section class="w-1/3 pl-4">
+        <div class="bg-gray-50 p-6 rounded shadow-md">
+          <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
+          <div class="mb-4 space-x-4">
+            <button @click="currentForm = 'addClass'" class="text-blue-600 hover:underline">Add New Class</button>
+            <button @click="currentForm = 'addSubject'" class="text-blue-600 hover:underline">Add New Subject</button>
+            <button @click="currentForm = 'addStudent'" class="text-blue-600 hover:underline">Register New Student</button>
+            <button @click="currentForm = 'assignSubject'" class="text-blue-600 hover:underline">Assign Subject to Teacher</button>
+          </div>
+          <div class="bg-white p-6 rounded shadow-md">
+            <component :is="currentFormComponent" />
+          </div>
+        </div>
       </section>
     </main>
   </div>
 </template>
+
+
 
 
 
@@ -34,6 +44,10 @@ const { authenticated, userEmail, role, school } = storeToRefs(useAuthStore());
 definePageMeta({
   middleware: 'auth2'
 })
+import AddClassForm from '~/components/AddClassForm.vue';
+import AddSubjectForm from '~/components/AddSubjectForm.vue';
+import AddStudentForm from '~/components/AddStudentForm.vue';
+import AssignSubjectForm from '~/components/AssignSubjectForm.vue';
 interface SchoolDetails {
   _id: string;
   name: string;
@@ -48,6 +62,7 @@ interface SchoolDetails {
 interface SchoolTeacher {
   school: SchoolDetails;
 }
+const currentForm = ref('addClass');
 const teacherSchool = ref<SchoolTeacher | null>(null);
 const result = await useFetch<SchoolTeacher>('/api/school/' + school.value);
 teacherSchool.value = result.data.value;
@@ -56,5 +71,18 @@ console.log(teacherSchool.value)
 if (role.value === 'schoolAdmin' && !school.value) {
   navigateTo('school/add-school');
 }
-
+const currentFormComponent = computed(() => {
+  switch (currentForm.value) {
+    case 'addClass':
+      return AddClassForm;
+    case 'addSubject':
+      return AddSubjectForm;
+    case 'addStudent':
+      return AddStudentForm;
+    case 'assignSubject':
+      return AssignSubjectForm;
+    default:
+      return AddClassForm; // Default to Add Class form
+  }
+});
 </script>
