@@ -1,20 +1,31 @@
 <template>
-  <div>
-    <h1>Home Page</h1>
-    <p>Welcome to the home page!</p>
-    <p v-if="userEmail">Logged in as: {{ userEmail }}</p>
-    <p v-if="role">Role: {{ role }}</p>
-    <div v-if="teacherSchool">
-      <div>Name: {{ teacherSchool.school.name }}</div>
-      <div>Type: {{ teacherSchool.school.type }}</div>
-      <div>Address: {{ teacherSchool.school.address }}</div>
-      <div>Location: {{ teacherSchool.school.location }}</div>
-      <div>Email: {{ teacherSchool.school.email }}</div>
-      <div>Phone: {{ teacherSchool.school.phone }}</div>
-      <div>Admin Email: {{ teacherSchool.school.adminEmail }}</div>
-    </div>
+  <div class="container mx-auto p-6">
+    <header class="bg-blue-600 text-white p-6 rounded mb-6 shadow-lg">
+      <h1 class="text-3xl font-bold">Welcome to the School Management System</h1>
+      <p v-if="userEmail" class="mt-2">Logged in as: <strong>{{ userEmail }}</strong></p>
+    </header>
+    <main>
+      <section v-if="role" class="bg-gray-100 p-6 rounded mb-6 shadow-md">
+        <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
+      </section>
+      <section v-if="teacherSchool" class="bg-white p-6 rounded mb-6 shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Your School Information</h2>
+        <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
+        <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
+      </section>
+      <section class="bg-gray-50 p-6 rounded shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
+        <ul class="list-disc list-inside">
+          <li><a href="/add-class" class="text-blue-600 hover:underline">Add New Class</a></li>
+          <li><a href="/add-subject" class="text-blue-600 hover:underline">Add New Subject</a></li>
+          <li><a href="/register-student" class="text-blue-600 hover:underline">Register New Student</a></li>
+        </ul>
+      </section>
+    </main>
   </div>
 </template>
+
+
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
