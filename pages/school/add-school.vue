@@ -39,12 +39,18 @@
         <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">Add School</button>
       </div>
     </form>
+    {{ submitError }}
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/store/auth';
+const { authenticated, userEmail, role, school } = storeToRefs(useAuthStore());
+definePageMeta({
+  middleware: 'auth2'
+})
 const form = reactive({
   name: '',
   type: '',
@@ -52,12 +58,31 @@ const form = reactive({
   location: '',
   email: '',
   phone: '',
-  adminEmail: ''
+  adminEmail: userEmail.value
 });
-
-const submitForm = () => {
+const submitError = ref('');
+const submitForm = async () => {
   console.log('Form submitted:', form);
-  // Add your form submission logic here
+  submitError.value = '';
+  try {
+    const { data, error } = await useFetch<{message?: string}>('/api/school/add-school/', {
+      method: 'POST',
+      body: {
+        name: form.name,
+        type: form.type,
+        address: form.address,
+        location: form.location,
+        email: form.email,
+        phone: form.phone,
+        adminEmail: form.adminEmail
+      }
+    })
+    if (error.value) {
+      submitError.value = error.value.data.message;
+    }
+  } catch (error) {
+    submitError.value = (error as Error).message;
+  }
 };
 </script>
 
