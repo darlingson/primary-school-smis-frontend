@@ -65,7 +65,7 @@ const submitForm = async () => {
   console.log('Form submitted:', form);
   submitError.value = '';
   try {
-    const { data, error } = await useFetch<{message?: string}>('/api/school/add-school/', {
+    const { data, error } = await useFetch<{message?: string,success:boolean}>('/api/school/add-school/', {
       method: 'POST',
       body: {
         name: form.name,
@@ -80,6 +80,10 @@ const submitForm = async () => {
     if (error.value) {
       submitError.value = error.value.data.message;
     }
+    if(data?.value?.success){
+      navigateTo('/school')
+    }
+
   } catch (error) {
     submitError.value = (error as Error).message;
   }

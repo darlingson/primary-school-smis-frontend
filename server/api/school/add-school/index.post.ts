@@ -24,7 +24,8 @@ export default defineEventHandler(async (event) => {
     if (error instanceof Error) {
       return {
         success: false,
-        message: error.message
+        message: error.message,
+        error: error
       }
     }
   }
