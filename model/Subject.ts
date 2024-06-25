@@ -17,3 +17,5 @@ const SubjectSchema = new mongoose.Schema({
         required: [true, "Please specify a type"],
     }
 });
+
+export default mongoose.models.Subject || mongoose.model("Subject", SubjectSchema)
