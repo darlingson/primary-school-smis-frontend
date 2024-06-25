@@ -24,9 +24,14 @@
                             <input v-model="loginPassword" type="password" placeholder="Password"
                                 class="w-full px-3 py-2 border rounded-lg" required />
                         </div>
-                        <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
-                            Login
-                        </button>
+                        <div v-if="!isLoading" class="mb-4">
+                            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                Login
+                            </button>
+                        </div>
+                        <div v-else>
+                            <LoadingComponent />
+                        </div>
                     </form>
                     <p v-if="loginError" class="text-red-500 mt-4">{{ loginError }}</p>
                 </div>
@@ -52,9 +57,14 @@
                                 <option value="teacher">Teacher</option>
                             </select>
                         </div>
-                        <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
-                            Signup
-                        </button>
+                        <div class="mb-4" v-if="!isLoading">
+                            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                Signup
+                            </button>
+                        </div>
+                        <div v-else>
+                            <LoadingComponent />
+                        </div>
                     </form>
                     <p v-if="signupError" class="text-red-500 mt-4">{{ signupError }}</p>
                 </div>
@@ -68,6 +78,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
 import { useAuthStore } from '~/store/auth'; // import the auth store we just created
+import LoadingComponent from '~/components/LoadingComponent.vue';
 
 const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
 
@@ -82,7 +93,7 @@ const loginError = ref<string | null>(null);
 const signupError = ref<string | null>(null);
 const signupName = ref<string | null>('');
 const signupRole = ref<string | null>(null)
-
+const isLoading = ref<boolean>(false);
 const router = useRouter();
 
 const login = async () => {
@@ -102,15 +113,19 @@ const login = async () => {
     // } catch (error) {
     //     loginError.value = 'Login failed';
     // }
+    isLoading.value = true;
     await authenticateUser({ username: loginEmail.value, password: loginPassword.value }); // call authenticateUser and pass the user object
     // redirect to homepage if user is authenticated
     if (authenticated) {
+        isLoading.value = false;
         router.push('/');
     }
+    isLoading.value = false;
 };
 
 const signup = async () => {
     signupError.value = null;
+    isLoading.value = true;
     try {
         const { data } = await useFetch<{ token: string; message?: string }>('/api/auth/signup', {
             method: 'POST',
@@ -118,13 +133,17 @@ const signup = async () => {
         });
         if (data?.value?.token) {
             localStorage.setItem('authToken', data.value.token);
+            isLoading.value = false;
             await router.push('/');
         } else if (data?.value?.message) {
+            isLoading.value = false;
             signupError.value = data.value.message;
         }
     } catch (error) {
+        isLoading.value = false;
         signupError.value = 'Signup failed';
     }
+    isLoading.value = false;
 };
 </script>
 
