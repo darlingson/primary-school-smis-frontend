@@ -18,11 +18,17 @@
       <section class="w-1/3 pl-4">
         <div class="bg-gray-50 p-6 rounded shadow-md">
           <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
-          <div class="mb-4 space-x-4">
-            <button @click="currentForm = 'addClass'" class="text-blue-600 hover:underline">Add New Class</button>
-            <button @click="currentForm = 'addSubject'" class="text-blue-600 hover:underline">Add New Subject</button>
-            <button @click="currentForm = 'addStudent'" class="text-blue-600 hover:underline">Register New Student</button>
-            <button @click="currentForm = 'assignSubject'" class="text-blue-600 hover:underline">Assign Subject to Teacher</button>
+          <div
+            class="flex max-w-full snap-x snap-mandatory space-x-3 overflow-x-auto whitespace-nowrap bg-gray-200 p-2 px-4">
+            <button @click="currentForm = 'addClass'"
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add Class</button>
+            <button @click="currentForm = 'addSubject'"
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add Subject</button>
+            <button @click="currentForm = 'addStudent'"
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Register Student</button>
+            <button @click="currentForm = 'assignSubject'"
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Assign Subject to
+              Teacher</button>
           </div>
           <div class="bg-white p-6 rounded shadow-md">
             <component :is="currentFormComponent" />
