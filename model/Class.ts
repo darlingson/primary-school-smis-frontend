@@ -22,3 +22,5 @@ const ClassSchema = new mongoose.Schema({
         default: [],
     },
 });
+
+export default mongoose.models.Class || mongoose.model("Class", ClassSchema)
