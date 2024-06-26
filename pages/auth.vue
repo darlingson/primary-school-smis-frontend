@@ -57,12 +57,20 @@
                                 <option value="teacher">Teacher</option>
                             </select>
                         </div>
+                        <div v-if="signupRole === 'teacher'" class="mb-4">
+                            <select v-model="teachersSchool" class="w-full px-3 py-2 border rounded-lg" required>
+                                <option value="" disabled selected>Select school</option>
+                                <option v-for="school in schools" :key="school._id" :value="school._id">
+                                    {{ school.name }}
+                                </option>
+                            </select>
+                        </div>
                         <div class="mb-4" v-if="!isLoading">
                             <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg">
                                 Signup
                             </button>
                         </div>
-                        <div v-else>
+                        <div v-else class="mb-4 flex-auto text-center justify-center">
                             <LoadingComponent />
                         </div>
                     </form>
@@ -79,9 +87,8 @@ import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
 import { useAuthStore } from '~/store/auth'; // import the auth store we just created
 import LoadingComponent from '~/components/LoadingComponent.vue';
-
 const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
-
+const teachersSchool = ref<string>('');
 const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
 const loginEmail = ref<string>('');
@@ -95,6 +102,8 @@ const signupName = ref<string | null>('');
 const signupRole = ref<string | null>(null)
 const isLoading = ref<boolean>(false);
 const router = useRouter();
+const schools = ref<School[]>([]);
+
 
 const login = async () => {
     loginError.value = null;
@@ -123,13 +132,30 @@ const login = async () => {
     isLoading.value = false;
 };
 
+interface School{
+    _id: number,
+    name: string,
+    type: string,
+    address: string,
+    location: string,
+    email: string,
+    phone: string,
+    adminEmail: string
+}
+
+const fetchSchools = async () => {
+    const { data } = await useFetch<{message: string, schools: School[]}>('/api/school');
+    schools.value = data.value?.schools || [];
+    console.log(schools.value);
+}
+fetchSchools();
 const signup = async () => {
     signupError.value = null;
     isLoading.value = true;
     try {
         const { data } = await useFetch<{ token: string; message?: string }>('/api/auth/signup', {
             method: 'POST',
-            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role: signupRole }
+            body: { email: signupEmail.value, password: signupPassword.value, name: signupName.value, role: signupRole, school: teachersSchool.value }
         });
         if (data?.value?.token) {
             localStorage.setItem('authToken', data.value.token);

@@ -19,8 +19,10 @@ export default defineEventHandler(async (event) => {
             email: body.email,
             password: hashedPassword,
             name: body.name,
-            role:body.role
+            role:body.role,
+            school:body.school
         });
+        
         await user.save();
 
         return {
