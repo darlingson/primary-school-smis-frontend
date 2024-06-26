@@ -81,6 +81,9 @@ console.log(teacherSchool.value)
 if (role.value === 'schoolAdmin' && !school.value) {
   navigateTo('school/add-school');
 }
+if(role.value === 'teacher'){
+  navigateTo('teachers/home');
+}
 const currentFormComponent = computed(() => {
   switch (currentForm.value) {
     case 'addClass':
