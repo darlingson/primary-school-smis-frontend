@@ -35,8 +35,11 @@
         <label for="adminEmail" class="block text-sm font-medium text-gray-700">Admin Email:</label>
         <input type="email" id="adminEmail" v-model="form.adminEmail" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
-      <div>
+      <div class="flex justify-center" v-if="!isLoading">
         <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">Add School</button>
+      </div>
+      <div v-else>
+        <LoadingComponent />
       </div>
     </form>
     {{ submitError }}
@@ -47,6 +50,7 @@
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
+import LoadingComponent from '~/components/LoadingComponent.vue';
 const { authenticated, userEmail, role, school } = storeToRefs(useAuthStore());
 definePageMeta({
   middleware: 'auth2'
@@ -61,7 +65,9 @@ const form = reactive({
   adminEmail: userEmail.value
 });
 const submitError = ref('');
+const isLoading = ref(false);
 const submitForm = async () => {
+  isLoading.value = true;
   console.log('Form submitted:', form);
   submitError.value = '';
   try {
@@ -78,15 +84,20 @@ const submitForm = async () => {
       }
     })
     if (error.value) {
+      isLoading.value = false;
       submitError.value = error.value.data.message;
     }
     if(data?.value?.success){
+      isLoading.value = false;
       navigateTo('/school')
     }
 
   } catch (error) {
+    isLoading.value = false;
     submitError.value = (error as Error).message;
   }
+
+  isLoading.value = false;
 };
 </script>
 

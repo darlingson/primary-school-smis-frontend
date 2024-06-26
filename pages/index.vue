@@ -21,13 +21,17 @@
           <div
             class="flex max-w-full snap-x snap-mandatory space-x-3 overflow-x-auto whitespace-nowrap bg-gray-200 p-2 px-4">
             <button @click="currentForm = 'addClass'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add Class</button>
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add
+              Class</button>
             <button @click="currentForm = 'addSubject'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add Subject</button>
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add
+              Subject</button>
             <button @click="currentForm = 'addStudent'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Register Student</button>
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Register
+              Student</button>
             <button @click="currentForm = 'assignSubject'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Assign Subject to
+              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Assign
+              Subject to
               Teacher</button>
           </div>
           <div class="bg-white p-6 rounded shadow-md">
