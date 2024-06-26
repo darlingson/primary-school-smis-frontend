@@ -174,7 +174,7 @@ const signup = async () => {
 </script>
 
 <style>
-body {
+/* body {
     @apply bg-gray-100;
-}
+} */
 </style>
