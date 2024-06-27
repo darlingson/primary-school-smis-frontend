@@ -1,35 +1,38 @@
 <template>
   <div class="container mx-auto p-6">
-    <header class="bg-blue-600 text-white p-6 rounded mb-6 shadow-lg">
-      <h1 class="text-3xl font-bold">Welcome <span class="font-normal">{{ userInfo?.name }} </span> to the School
-        Management System</h1>
-      <p v-if="userEmail" class="mt-2">Logged in as: <strong>{{ userEmail }}</strong></p>
-    </header>
-    <main class="flex">
-      <section class="w-2/3 pr-4">
-        <div v-if="role" class="bg-gray-100 p-6 rounded mb-6 shadow-md">
-          <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
-        </div>
-        <div v-if="teacherSchool" class="bg-white p-6 rounded mb-6 shadow-md">
-          <h2 class="text-2xl font-semibold mb-4">School Information</h2>
-          <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
-          <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
-        </div>
+    <div class="flex flex-col md:flex-row justify-between items-center bg-gray-100 rounded shadow-lg p-6">
+      <div class="flex items-center">
+        <h1 class="text-3xl font-bold mr-4">Welcome <span class="font-normal">{{ userInfo?.name }}</span></h1>
+        <img class="w-16 h-16 rounded-full object-cover" src="https://fakeimg.pl/600x400" alt="Profile Picture" />
+      </div>
+      <div v-if="userEmail">
+        <p class="text-gray-500">Logged in as: <strong>{{ userEmail }}</strong></p>
+      </div>
+    </div>
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <section v-if="role" class="bg-white p-6 rounded shadow-md">
+        <p class="text-xl font-semibold">Your Role</p>
+        <p class="mt-2">{{ role }}</p>
       </section>
-      <section class="w-1/3 pl-4">
-        <div class="bg-gray-50 p-6 rounded shadow-md">
-          <h2 class="text-2xl font-semibold mb-4">Assigned Subjects</h2>
-          <div v-if="!assignedSubjects.length" class="text-center text-gray-500">No subjects assigned yet.</div>
-          <ul>
-            <li v-for="subject in assignedSubjects" :key="subject._id" class="mb-2">
-              {{ subject.name }}
-            </li>
-          </ul>
-        </div>
+      <section v-if="teacherSchool" class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-semibold">School Information</h2>
+        <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
+        <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
+      </section>
+      <section class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-semibold">Assigned Subjects</h2>
+        <div v-if="!assignedSubjects.length" class="text-center text-gray-500">No subjects assigned yet.</div>
+        <ul v-else>
+          <li v-for="subject in assignedSubjects" :key="subject._id" class="mb-2">
+            {{ subject.name }}
+          </li>
+        </ul>
       </section>
     </main>
   </div>
 </template>
+
+
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
