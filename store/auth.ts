@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', {
     userEmail: '',
     role: '',
     school: '',
+    _id: '',    
   }),
   persist: true,
   actions: {
@@ -34,6 +35,7 @@ export const useAuthStore = defineStore('auth', {
         this.userEmail = data?.value?.email;
         this.role = data?.value?.role;
         this.school = data?.value?.school;
+        this._id = data?.value?._id;
       }
     },
     logUserOut() {
@@ -41,6 +43,9 @@ export const useAuthStore = defineStore('auth', {
       this.authenticated = false;
       token.value = null;
       this.userEmail = '';
+      this.role = '';
+      this.school = '';
+      this._id = '';
     },
   },
 });

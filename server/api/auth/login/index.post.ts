@@ -31,7 +31,8 @@ export default defineEventHandler(async (event) => {
         token,
         email: user.email,
         role: user.role,
-        school: user.school
+        school: user.school,
+        _id: user._id
     }
     
 });

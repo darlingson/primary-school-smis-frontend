@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-6">
     <header class="bg-blue-600 text-white p-6 rounded mb-6 shadow-lg">
-      <h1 class="text-3xl font-bold">Welcome to the School Management System</h1>
+      <h1 class="text-3xl font-bold">Welcome <span class="font-normal">{{userInfo?.name}} </span> to the School Management System</h1>
       <p v-if="userEmail" class="mt-2">Logged in as: <strong>{{ userEmail }}</strong></p>
     </header>
     <main class="flex">
@@ -10,7 +10,7 @@
           <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
         </div>
         <div v-if="teacherSchool" class="bg-white p-6 rounded mb-6 shadow-md">
-          <h2 class="text-2xl font-semibold mb-4">Your School Information</h2>
+          <h2 class="text-2xl font-semibold mb-4">School Information</h2>
           <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
           <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
         </div>
@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
-const { authenticated, userEmail, role, school } = storeToRefs(useAuthStore());
+const { authenticated, userEmail, role, school,_id } = storeToRefs(useAuthStore());
 definePageMeta({
   middleware: 'auth2'
 })
@@ -37,12 +37,25 @@ interface SchoolDetails {
   adminEmail: string;
   __v: number;
 }
+interface UserInfo {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  school: string;
+}
 interface SchoolTeacher {
   school: SchoolDetails;
 }
 const teacherSchool = ref<SchoolTeacher | null>(null);
 const result = await useFetch<SchoolTeacher>('/api/school/' + school.value);
 teacherSchool.value = result.data.value;
+
+const userInfo = ref<UserInfo | null>(null);
+// console.log(_id.value)
+const userInforesult = await useFetch<any>('/api/teachers/' +_id.value );
+userInfo.value = userInforesult.data.value.user_info as UserInfo;
+console.log(userInforesult.data.value.user_info)
 </script>
 
 <style>
