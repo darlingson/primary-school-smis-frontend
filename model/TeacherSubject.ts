@@ -1,39 +1,57 @@
 import mongoose from "mongoose";
 
 const TeacherSubjectSchema = new mongoose.Schema({
-    teacher: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [true, "Please provide a teacher"],
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "Please provide a teacher"],
+  },
+  subject: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+      required: [true, "Please provide a subject id"],
     },
-    subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subject",
-        required: [true, "Please provide a subject"],
+    name: {
+      type: String,
+      required: [true, "Please provide a subject name"],
     },
-    class: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Class",
-        required: [true, "Please provide a class"],
+  },
+  class: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+      required: [true, "Please provide a class id"],
     },
-    school: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "School",
-        required: [true, "Please provide a school"],
+    name: {
+      type: String,
+      required: [true, "Please provide a class name"],
     },
-    Term: {
-        type: String,
-        enum: ["First Term", "Second Term", "Third Term"],
-        required: [true, "Please provide a term"],
+  },
+  school: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
+      required: [true, "Please provide a school id"],
     },
-    Year: {
-        type: Number,
-        required: [true, "Please provide a year"],
+    name: {
+      type: String,
+      required: [true, "Please provide a school name"],
     },
-    AcademicYear: {
-        type: String,
-        required: [true, "Please provide an academic year"],
-    },
+  },
+  Term: {
+    type: String,
+    enum: ["First Term", "Second Term", "Third Term"],
+    required: [true, "Please provide a term"],
+  },
+  Year: {
+    type: Number,
+    required: [true, "Please provide a year"],
+  },
+  AcademicYear: {
+    type: String,
+    required: [true, "Please provide an academic year"],
+  },
 });
 
-export default mongoose.models.TeacherSubject || mongoose.model("TeacherSubject", TeacherSubjectSchema)
+export default mongoose.models.TeacherSubject || mongoose.model("TeacherSubject", TeacherSubjectSchema);
