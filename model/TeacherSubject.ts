@@ -35,3 +35,5 @@ const TeacherSubjectSchema = new mongoose.Schema({
         required: [true, "Please provide an academic year"],
     },
 });
+
+export default mongoose.models.TeacherSubject || mongoose.model("TeacherSubject", TeacherSubjectSchema)
