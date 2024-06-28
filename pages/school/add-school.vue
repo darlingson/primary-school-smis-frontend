@@ -4,7 +4,8 @@
     <form @submit.prevent="submitForm" class="space-y-4">
       <div>
         <label for="name" class="block text-sm font-medium text-gray-700">School Name:</label>
-        <input type="text" id="name" v-model="form.name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="text" id="name" v-model="form.name" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="type" class="block text-sm font-medium text-gray-700">School Type:</label>
@@ -17,26 +18,32 @@
       </div>
       <div>
         <label for="address" class="block text-sm font-medium text-gray-700">Address:</label>
-        <input type="text" id="address" v-model="form.address" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="text" id="address" v-model="form.address" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="location" class="block text-sm font-medium text-gray-700">Location:</label>
-        <input type="text" id="location" v-model="form.location" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="text" id="location" v-model="form.location" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-        <input type="email" id="email" v-model="form.email" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="email" id="email" v-model="form.email" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="phone" class="block text-sm font-medium text-gray-700">Phone:</label>
-        <input type="tel" id="phone" v-model="form.phone" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="tel" id="phone" v-model="form.phone" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
         <label for="adminEmail" class="block text-sm font-medium text-gray-700">Admin Email:</label>
-        <input type="email" id="adminEmail" v-model="form.adminEmail" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+        <input type="email" id="adminEmail" v-model="form.adminEmail" required
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div class="flex justify-center" v-if="!isLoading">
-        <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">Add School</button>
+        <button type="submit"
+          class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">Add School</button>
       </div>
       <div v-else>
         <LoadingComponent />
@@ -71,7 +78,7 @@ const submitForm = async () => {
   console.log('Form submitted:', form);
   submitError.value = '';
   try {
-    const { data, error } = await useFetch<{message?: string,success:boolean}>('/api/school/add-school/', {
+    const { data, error } = await useFetch<{ message?: string, success: boolean }>('/api/school/add-school/', {
       method: 'POST',
       body: {
         name: form.name,
@@ -87,7 +94,11 @@ const submitForm = async () => {
       isLoading.value = false;
       submitError.value = error.value.data.message;
     }
-    if(data?.value?.success){
+    if (!data?.value?.success) {
+      isLoading.value = false;
+      submitError.value = error?.value?.data.message;
+    }
+    if (data?.value?.success) {
       isLoading.value = false;
       navigateTo('/school')
     }
