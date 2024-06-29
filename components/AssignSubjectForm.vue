@@ -13,8 +13,15 @@
       <p><strong>Email:</strong> {{ selectedTeacher.email }}</p>
     </div>
 
+    <label for="class" class="block mb-2">Class:</label>
+    <select id="class" v-model="selectedClassId" @change="updateFilteredSubjects"
+      class="border-gray-300 border p-2 mb-4 rounded-md w-full" required>
+      <option value="">Select a class</option>
+      <option v-for="classOption in getClassOptions" :key="classOption._id" :value="classOption._id">{{ classOption.name }}</option>
+    </select>
+
     <label class="block mb-2">Subjects:</label>
-    <div v-for="subject in schoolSubjects" :key="subject._id" class="flex items-center mb-2">
+    <div v-for="subject in filteredSubjects" :key="subject._id" class="flex items-center mb-2">
       <input type="checkbox" :id="subject._id" :value="subject._id" v-model="selectedSubjects" class="mr-2">
       <label :for="subject._id">{{ subject.name }} ({{ subject.class.name }})</label>
     </div>
@@ -25,11 +32,8 @@
   </form>
 </template>
 
-
-
-
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
 
@@ -44,6 +48,7 @@ const selectedTeacher = ref<any | null>(null);
 const selectedSubjects = ref<string[]>([]);
 const teachers = ref<any[]>([]);
 const schoolSubjects = ref<any[]>([]);
+const selectedClassId = ref<string>('');
 
 const assignSubject = async () => {
   if (!selectedTeacherId.value || selectedSubjects.value.length === 0) {
@@ -72,8 +77,7 @@ const assignSubject = async () => {
         academic_year: "2023/2024",
       };
 
-
-      assignTeacher(payload)
+      assignTeacher(payload);
       console.log('Assigned subject:', subject.name, 'to teacher:', selectedTeacher.value.name);
     }
   }
@@ -83,6 +87,7 @@ const assignSubject = async () => {
   selectedTeacher.value = null;
   selectedSubjects.value = [];
 };
+
 interface Teacher {
   _id: string;
   name: string;
@@ -90,12 +95,12 @@ interface Teacher {
   school: string;
   __v: number;
 }
-interface teachersFetchResponse{
+
+interface teachersFetchResponse {
   teachers: Teacher[];
 }
-async function assignTeacher(payload: any): Promise<void> {
-  console.log(payload)
 
+async function assignTeacher(payload: any): Promise<void> {
   try {
     await useFetch(`/api/teachers/assignments`, {
       method: 'POST',
@@ -105,6 +110,7 @@ async function assignTeacher(payload: any): Promise<void> {
     console.error(error);
   }
 }
+
 const updateTeacherDetails = () => {
   selectedTeacher.value = teachers.value.find(teacher => teacher._id === selectedTeacherId.value) || null;
 };
@@ -118,6 +124,7 @@ await useFetch<teachersFetchResponse>(`/api/teachers/school/${school.value}`, {
     console.log(response.data.value);
   }
 });
+
 await useFetch(`/api/school/${school.value}/subjects`, {
   method: 'GET',
 }).then((response) => {
@@ -126,4 +133,28 @@ await useFetch(`/api/school/${school.value}/subjects`, {
     console.log(response.data.value);
   }
 });
+
+const filteredSubjects = computed(() => {
+  if (!selectedClassId.value) {
+    return schoolSubjects.value; // Return all subjects if no class selected
+  }
+  return schoolSubjects.value.filter(subject => subject.class._id === selectedClassId.value);
+});
+
+const getClassOptions = computed(() => {
+  const uniqueClasses: any[] = [];
+  schoolSubjects.value.map((subject) => {
+    if (!uniqueClasses.some(c => c._id === subject.class._id)) {
+      uniqueClasses.push({
+        _id: subject.class._id,
+        name: subject.class.name
+      });
+    }
+  });
+  return uniqueClasses;
+});
+
+const updateFilteredSubjects = () => {
+  filteredSubjects.value;
+};
 </script>
