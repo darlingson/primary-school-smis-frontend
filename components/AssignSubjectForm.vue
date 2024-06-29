@@ -65,11 +65,11 @@ const assignSubject = async () => {
         },
         school: {
           id: school.value,
-          name: subject.school.name, // Adjust if you have school name available
+          name: subject.school.name,
         },
-        term: "First Term", // Example term, should be dynamic
-        year: new Date().getFullYear(), // Example year, should be dynamic
-        academic_year: "2023/2024", // Example academic year, should be dynamic
+        term: "First Term",
+        year: new Date().getFullYear(),
+        academic_year: "2023/2024",
       };
 
 
@@ -83,24 +83,34 @@ const assignSubject = async () => {
   selectedTeacher.value = null;
   selectedSubjects.value = [];
 };
+interface Teacher {
+  _id: string;
+  name: string;
+  email: string;
+  school: string;
+  __v: number;
+}
+interface teachersFetchResponse{
+  teachers: Teacher[];
+}
 async function assignTeacher(payload: any): Promise<void> {
   console.log(payload)
 
-try {
+  try {
     await useFetch(`/api/teachers/assignments`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
-} catch (error) {
+  } catch (error) {
     console.error(error);
-}
+  }
 }
 const updateTeacherDetails = () => {
   selectedTeacher.value = teachers.value.find(teacher => teacher._id === selectedTeacherId.value) || null;
 };
 
 console.log("getting schools");
-await useFetch(`/api/teachers/school/${school.value}`, {
+await useFetch<teachersFetchResponse>(`/api/teachers/school/${school.value}`, {
   method: 'GET',
 }).then((response) => {
   if (response.data.value) {
