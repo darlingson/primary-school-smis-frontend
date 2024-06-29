@@ -15,29 +15,29 @@
           <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
         </div>
         <section class="w-full">
-        <div class="bg-gray-50 p-6 rounded shadow-md">
-          <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
-          <div
-            class="flex max-w-full snap-x snap-mandatory space-x-3 overflow-x-auto whitespace-nowrap bg-gray-200 p-2 px-4">
-            <button @click="currentForm = 'addClass'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add
-              Class</button>
-            <button @click="currentForm = 'addSubject'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Add
-              Subject</button>
-            <button @click="currentForm = 'addStudent'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Register
-              Student</button>
-            <button @click="currentForm = 'assignSubject'"
-              class="bg-white text-black rounded-md border-2 border-blue-600 px-4 py-2 hover:bg-stone-500">Assign
-              Subject to
-              Teacher</button>
+          <div class="bg-gray-50 p-6 rounded shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
+            <div
+              class="flex max-w-full snap-x snap-mandatory space-x-3 overflow-x-auto whitespace-nowrap bg-gray-200 p-2 px-4">
+              <button @click="currentForm = 'addClass'"
+                :class="currentForm === 'addClass' ? selectedActionClasses : unselectedActionClasses"
+                class="rounded-md border-2  px-4 py-2 hover:bg-stone-500">Add Class</button>
+              <button @click="currentForm = 'addSubject'"
+                :class="currentForm === 'addSubject' ? selectedActionClasses : unselectedActionClasses"
+                class="rounded-md border-2  px-4 py-2 hover:bg-stone-500">Add Subject</button>
+              <button @click="currentForm = 'addStudent'"
+                :class="currentForm === 'addStudent' ? selectedActionClasses : unselectedActionClasses"
+                class="rounded-md border-2  px-4 py-2 hover:bg-stone-500">Register Student</button>
+              <button @click="currentForm = 'assignSubject'"
+                :class="currentForm === 'assignSubject' ? selectedActionClasses : unselectedActionClasses"
+                class="rounded-md border-2  px-4 py-2 hover:bg-stone-500">Assign Subject to
+                Teacher</button>
+            </div>
+            <div class="bg-white p-6 rounded shadow-md">
+              <component :is="currentFormComponent" />
+            </div>
           </div>
-          <div class="bg-white p-6 rounded shadow-md">
-            <component :is="currentFormComponent" />
-          </div>
-        </div>
-      </section>
+        </section>
       </section>
 
     </main>
@@ -76,13 +76,15 @@ interface SchoolTeacher {
 const currentForm = ref('addClass');
 const teacherSchool = ref<SchoolTeacher | null>(null);
 const result = await useFetch<SchoolTeacher>('/api/school/' + school.value);
+const unselectedActionClasses = "bg-white text-black rounded-md border-2  px-4 py-2 hover:bg-blue-500"
+const selectedActionClasses = "text-black rounded-md border-2 border-black px-4 py-2 bg-blue-500 hover:bg-stone-500"
 teacherSchool.value = result.data.value;
 console.log(teacherSchool.value)
 //check if role is admin but no school is set, then navigate to add school page
 if (role.value === 'schoolAdmin' && !school.value) {
   navigateTo('school/add-school');
 }
-if(role.value === 'teacher'){
+if (role.value === 'teacher') {
   navigateTo('teachers/home');
 }
 const currentFormComponent = computed(() => {
