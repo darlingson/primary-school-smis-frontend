@@ -29,7 +29,14 @@ export default defineEventHandler(async (event) => {
     }
   }
   catch(error){
-
+    console.log(error)
+    if (error instanceof Error) {
+      return {
+        success: false,
+        message: error.message,
+        error: error
+      }
+    }
   }
 })
 //subjects array that contains the common subject taught in primary schools in Malawi
