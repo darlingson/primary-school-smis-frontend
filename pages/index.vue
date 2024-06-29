@@ -5,7 +5,7 @@
       <p v-if="userEmail" class="mt-2">Logged in as: <strong>{{ userEmail }}</strong></p>
     </header>
     <main class="flex">
-      <section class="w-2/3 pr-4">
+      <section class="w-full">
         <div v-if="role" class="bg-gray-100 p-6 rounded mb-6 shadow-md">
           <p class="text-xl">Your Role: <strong>{{ role }}</strong></p>
         </div>
@@ -14,8 +14,7 @@
           <p class="mb-2"><strong>School Name:</strong> {{ teacherSchool.school.name }}</p>
           <p><strong>School Type:</strong> {{ teacherSchool.school.type }}</p>
         </div>
-      </section>
-      <section class="w-1/3 pl-4">
+        <section class="w-full">
         <div class="bg-gray-50 p-6 rounded shadow-md">
           <h2 class="text-2xl font-semibold mb-4">Admin Actions</h2>
           <div
@@ -39,6 +38,8 @@
           </div>
         </div>
       </section>
+      </section>
+
     </main>
   </div>
 </template>
