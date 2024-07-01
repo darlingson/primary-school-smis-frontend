@@ -33,3 +33,5 @@ const StudentSchema = new mongoose.Schema({
         required: [true, "Please provide an email"],
     },
 });
+
+export default mongoose.models.Student || mongoose.model("Student", StudentSchema)
